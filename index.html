@@ -215,6 +215,30 @@ form.ask input{flex:1;min-width:0;border:2px solid var(--line);background:var(--
 .credits dd{margin:0;color:var(--fg)}
 footer.end{padding-block:36px 40px;color:var(--muted);font-size:var(--s-5);text-align:center}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* phones: keep the painting clear; every word moves to the caption bar under it */
+.subline{display:none}
+@media (max-width:900px),(max-height:500px){
+  .bubble.show,.caption.show,.spot,.cover-card{display:none!important}
+  .cheer svg{width:28px}
+  .cheer b{font-size:11px;padding:1px 6px;border-width:2px}
+  .cheer{top:22px;right:8px}
+  .pageno{bottom:6px;right:6px;font-size:11px;padding:0 8px}
+  .subline{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:center;margin-top:14px;min-height:76px;
+    background:var(--paper);color:var(--ink);border-radius:12px;padding:10px 12px;box-shadow:0 10px 24px -14px #000}
+  .subline svg{width:44px;height:44px}
+  .subline .nm{font-size:12px;font-weight:700;color:#6d5160}
+  .subline .tx{font-family:var(--f-story);font-size:1.08rem;line-height:1.55;animation:fade .35s}
+  .subline.idle{grid-template-columns:minmax(0,1fr);text-align:center}
+  .subline .faces{display:flex;gap:6px;justify-content:center;margin-top:4px}
+  .subline .faces svg{width:34px;height:34px}
+  .controls{margin-top:14px}
+  .modes{display:grid;grid-template-columns:1fr 1fr;border-radius:16px;width:100%}
+  .modes button{border-radius:12px}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .stage{width:min(100%,calc((100svh - 150px)*4/3));margin-inline:auto}
+  .subline{margin-top:10px;min-height:0;padding:6px 12px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -235,6 +259,7 @@ footer.end{padding-block:36px 40px;color:var(--muted);font-size:var(--s-5);text-
         <div class="pageno" id="pageno">1 / 10</div>
         <div class="cheer" id="cheer" aria-label="亮晶晶舉牌"></div>
       </div>
+      <div class="subline" id="subline" aria-live="polite"></div>
       <div class="controls">
         <div class="transport">
           <button class="btn" id="prev" aria-label="上一頁"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 5 7 12l8 7z"/></svg></button>
@@ -567,8 +592,17 @@ function reveal(n){
   if(nowEl){const top=nowEl.offsetTop-linesEl.offsetTop-linesEl.clientHeight/2+nowEl.clientHeight/2;linesEl.scrollTo({top,behavior:"smooth"});}
   const l=p.lines[shown-1];
   bubble.classList.remove("show"); caption.classList.remove("show");
-  if(!l){spot.setAttribute("aria-hidden","true");return;}
+  const sub=$("#subline");
+  if(!l){
+    spot.setAttribute("aria-hidden","true");
+    sub.className="subline idle";
+    sub.innerHTML=cur===0?`<div><div class="nm">ALLAN 家族　說故事演出</div><div class="tx">晴晴 · 亭婷 · 淑嬪 · 亮晶晶</div><div class="faces">${ACTORS.map(a=>AV[a.av](a.col)).join("")}</div></div>`
+      :`<div><div class="nm">第 ${cur+1} 頁</div><div class="tx">${p.t}</div></div>`;
+    return;
+  }
   const r=ROLE[l[0]];
+  sub.className="subline";
+  sub.innerHTML=`${AV[r.av](COL[l[0]])}<div><div class="nm">${r.who}｜${r.role}</div><div class="tx">${l[1]}</div></div>`;
   spot.innerHTML=`${AV[r.av](COL[l[0]])}<span><b style="--sc:${COL[l[0]]}">${r.who}</b> 飾 ${r.role}</span>`;
   spot.setAttribute("aria-hidden","false");
   if(l[2]){
