@@ -246,7 +246,7 @@ footer.end{padding-block:36px 40px;color:var(--muted);font-size:var(--s-5);text-
   <header class="hero">
     <div class="eyebrow">ALLAN 家族說故事劇場　·　第一號作品</div>
     <h1 class="title" aria-label="花草派"><span>花</span><span>草</span><span>派</span><small>新編互動繪本</small></h1>
-    <p class="lede">一隻愛踢球的小象玫瑰，遇上會溜冰又會彈琴的轉學生長頸鹿晶晶。媽媽提議送一個「最最最特別的花草派」，玫瑰卻以為派裡會放毛毛蟲。這本 2010 年社區大學學員手繪的繪本，現在由 <b>晴晴、亭婷、淑嬪</b> 重新說給你聽，<b>亮晶晶</b> 在舞台邊舉牌加油。</p>
+    <p class="lede">一隻愛踢球的小象玫瑰，遇上會溜冰又會彈琴的轉學生長頸鹿晶晶。媽媽提議送一個「最最最特別的花草派」，玫瑰卻以為派裡會放毛毛蟲。這本 2010 年社區大學學員手繪的繪本，現在由 <b>晴晴、亭婷、淑嬪</b> 重新說給你聽，<b>亮晶晶</b> 一起唱歌，還在舞台邊舉牌加油。</p>
   </header>
 
   <div class="theatre" id="theatre">
@@ -437,11 +437,12 @@ AV.star = c => `<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy
     <path d="M52 66q8 9 16 0z" fill="#e2483d" stroke="#2b1a1f" stroke-width="2" stroke-linejoin="round"/>
     <circle cx="46" cy="66" r="3.6" fill="#ff8595" opacity=".85"/><circle cx="74" cy="66" r="3.6" fill="#ff8595" opacity=".85"/>
     <path d="M22 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM98 92l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM100 26l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z" fill="#fff4dc"/></svg>`;
-const COL = {N:"#ecdcc0",M:"#c99af2",R:"#ff8595",J:"#ffcb3d",C:"#80dc93",V:"#80dc93"};
+const COL = {N:"#ecdcc0",M:"#c99af2",R:"#ff8595",J:"#ffcb3d",C:"#80dc93",V:"#80dc93",L:"#8fd0ff"};
 const ROLE = {
   N:{who:"晴晴",role:"說書人",av:"book"}, J:{who:"晴晴",role:"長頸鹿晶晶",av:"jing"},
   R:{who:"亭婷",role:"小象玫瑰",av:"rose"},
-  M:{who:"淑嬪",role:"象媽媽",av:"mom"}, C:{who:"淑嬪",role:"同學們",av:"bunny"}, V:{who:"淑嬪",role:"玫瑰心裡的小聲音",av:"bug"}
+  M:{who:"淑嬪",role:"象媽媽",av:"mom"}, C:{who:"淑嬪",role:"同學們",av:"bunny"}, V:{who:"淑嬪",role:"玫瑰心裡的小聲音",av:"bug"},
+  L:{who:"亮晶晶",role:"小歌手",av:"star"}
 };
 const ACTORS = [
   {id:"qing",name:"晴晴",age:"11 歲",keys:["N","J"],av:"jing",col:"#ffcb3d",
@@ -450,17 +451,18 @@ const ACTORS = [
    role:"<b>小象玫瑰</b>　主角",desc:"踢球高手，嘴巴說不要，其實很在意朋友。從吃醋到交到好朋友，全看她的表情。",quote:"才不好！她很愛現又臭屁！"},
   {id:"shu",name:"淑嬪",age:"媽媽",keys:["M","C","V"],av:"mom",col:"#c99af2",
    role:"<b>象媽媽</b>＋<b>同學們</b>＋<b>小聲音</b>",desc:"想出「送一個最特別的花草派」的媽媽，順便包辦全班同學，還有玫瑰心裡那個想放毛毛蟲的調皮聲音。",quote:"知己知彼，百戰百勝。"},
-  {id:"liang",name:"亮晶晶",age:"4 歲",keys:[],av:"star",col:"#8fd0ff",
-   role:"<b>歡樂啦啦隊</b>　無聲演出",desc:"一句台詞都不用背。每一頁都在舞台右上角舉牌、拍手、轉圈圈，負責把大家逗笑。",quote:"（舉牌）拍拍手！",silent:true}
+  {id:"liang",name:"亮晶晶",age:"4 歲",keys:["L"],av:"star",col:"#8fd0ff",
+   role:"<b>小歌手</b>＋<b>歡樂啦啦隊</b>",desc:"開場和謝幕跟著音樂一起唱歌；每一頁還在舞台右上角舉牌、拍手、轉圈圈，負責把大家逗笑。",quote:"（舉牌）拍拍手！",cheerer:true}
 ];
 
 /* ---------- book ---------- */
 // pos = [left%, top%, width%] of the original PPT speech bubble
 const PAGES = [
- {t:"封面",cheer:"歡迎光臨",dur:38.7,ts:[0.3, 2, 9],o:["50%","40%"],lines:[
+ {t:"封面",cheer:"歡迎光臨",dur:38.7,ts:[0.3, 2, 9, 16],o:["50%","40%"],lines:[
   ["N","花草派。"],
+  ["L","（跟著音樂一起唱〈花草派〉）"],
   ["N","嘉義市社區大學九十九年春季班「大家讀繪本」作品，指導老師黃美智老師。"],
-  ["N","今天由 Allan 家族的晴晴、亭婷和淑嬪說故事給你聽，亮晶晶在旁邊幫大家加油。"]]},
+  ["N","今天由 Allan 家族的晴晴、亭婷和淑嬪說故事給你聽，亮晶晶陪大家一起唱歌、加油。"]]},
  {t:"愛踢球的小象玫瑰",cheer:"好球！",dur:30.9,ts:[11.2, 18.9, 25.0, 27.8],o:["70%","60%"],lines:[
   ["N","媽媽彎腰照顧花草。玫瑰正在踢球，兩個同學在一旁觀看著。"],
   ["C","小象玫瑰愛踢球，又踢又頂技藝高！"],
@@ -521,9 +523,10 @@ const PAGES = [
  {t:"謝謝媽媽",cheer:"謝謝媽媽",dur:38.1,ts:[0.44, 5.64],o:["50%","70%"],lines:[
   ["N","玫瑰很感謝媽媽，不只是因為媽媽為她做了個派。"],
   ["N","還因為若沒有媽媽的提議，她就沒有機會認識像晶晶這麼好的朋友了。"]]},
- {t:"謝幕",cheer:"拍拍手",dur:30.7,ts:[0.3, 5, 11],o:["50%","40%"],lines:[
+ {t:"謝幕",cheer:"拍拍手",dur:30.7,ts:[0.3, 4, 10, 17],o:["50%","40%"],lines:[
   ["N","謝謝觀賞，敬請指教。"],
-  ["N","演出：晴晴（說書人、晶晶）、亭婷（玫瑰）、淑嬪（媽媽與其他角色）、亮晶晶（歡樂啦啦隊）。"],
+  ["L","（跟著音樂一起唱謝幕歌）"],
+  ["N","演出：晴晴（說書人、晶晶）、亭婷（玫瑰）、淑嬪（媽媽與其他角色）、亮晶晶（唱歌、歡樂啦啦隊）。"],
   ["N","繪本動畫輸出：Allan。"]]}
 ];
 const pad = n => String(n).padStart(2,"0");
@@ -577,7 +580,7 @@ function renderLines(){
   applyFilter();
 }
 function applyFilter(){
-  let a=ACTORS.find(x=>x.id===filter); if(a&&a.silent) a=null;
+  const a=ACTORS.find(x=>x.id===filter);
   linesEl.querySelectorAll(".ln").forEach(d=>{
     const k=PAGES[cur].lines[+d.dataset.i][0];
     d.classList.toggle("hl",!!a&&a.keys.includes(k)); d.classList.toggle("dim",!!a&&!a.keys.includes(k));
@@ -672,7 +675,7 @@ async function startPage(from=0){
 }
 
 /* AI voice: one browser voice, a different pitch and pace per character */
-const VOICE={N:[1,.92],M:[.85,.9],R:[1.25,1.02],J:[1.45,1],C:[1.75,1.08],V:[1.6,1.15]};
+const VOICE={N:[1,.92],M:[.85,.9],R:[1.25,1.02],J:[1.45,1],C:[1.75,1.08],V:[1.6,1.15],L:[1.8,1.05]};
 let zhVoice=null;
 function pickVoice(){
   if(!("speechSynthesis" in window))return;
@@ -686,6 +689,7 @@ function speakFrom(i){
   if(!("speechSynthesis" in window)){reveal(p.lines.length);setPlaying(false);return;}
   if(i>=p.lines.length) return pageDone();
   reveal(i+1); $("#bar").style.width=((i+1)/p.lines.length*100)+"%";
+  if(p.lines[i][0]==="L"){aiTimer=setTimeout(()=>{if(playing)speakFrom(i+1);},2500);return;}
   const l=p.lines[i], u=new SpeechSynthesisUtterance(l[1].replace(/～/g,"").replace(/Allan/g,"艾倫"));
   u.lang=zhVoice?zhVoice.lang:"zh-TW"; if(zhVoice)u.voice=zhVoice;
   u.pitch=Math.min(2,VOICE[l[0]][0]); u.rate=VOICE[l[0]][1];
@@ -732,11 +736,11 @@ ACTORS.forEach(a=>{
     <h3>${a.name}<small>飾演</small></h3>
     <p class="role">${a.role}<br><span style="color:#6d5160">${a.desc}</span></p>
     <blockquote>「${a.quote}」</blockquote>
-    <div class="meta">${a.silent?`<span>全劇舉牌</span><span>${PAGES.length} 次</span>`:`<span>全劇台詞</span><span>${n} 句</span>`}</div>`);
+    <div class="meta">${a.cheerer?`<span>唱歌 ${n} 段・舉牌</span><span>${PAGES.length} 次</span>`:`<span>全劇台詞</span><span>${n} 句</span>`}</div>`);
   b.onclick=()=>{
     filter=filter===a.id?null:a.id;
     castgrid.querySelectorAll(".actor").forEach((x,j)=>x.setAttribute("aria-pressed",ACTORS[j].id===filter));
-    $("#filternote").textContent=!filter?"":a.silent?`${a.name}不說台詞，請看舞台右上角她每一頁舉的牌子。`:`劇本已標出 ${a.name} 的台詞（${a.role.replace(/<[^>]+>/g,"")}）。翻到任一頁都看得到。`;
+    $("#filternote").textContent=!filter?"":a.cheerer?`劇本已標出 ${a.name} 唱歌的段落（封面與謝幕）；每一頁舞台右上角的牌子也是她舉的。`:`劇本已標出 ${a.name} 的台詞（${a.role.replace(/<[^>]+>/g,"")}）。翻到任一頁都看得到。`;
     applyFilter();
     if(filter) $("#theatre").scrollIntoView({behavior:"smooth",block:"start"});
   };
