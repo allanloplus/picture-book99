@@ -75,6 +75,14 @@ header.hero{padding-block:28px 18px;display:grid;gap:10px}
 @container (min-width:560px){.bubble.show,.caption.show{display:block}}
 @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}}
+.cheer{position:absolute;right:12px;top:30px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;pointer-events:none}
+.cheer svg{width:clamp(34px,9cqi,64px);height:auto;animation:hop 1.6s ease-in-out infinite}
+.cheer b{order:-1;font-family:var(--f-display);font-weight:900;font-size:clamp(11px,2.2cqi,17px);color:var(--ink);background:var(--paper);
+  border:3px solid #8fd0ff;border-radius:6px;padding:2px 8px;white-space:nowrap;transform:rotate(-5deg);box-shadow:0 4px 0 rgba(0,0,0,.25);
+  animation:wave 1.6s ease-in-out infinite;margin-bottom:-4px}
+.cheer.new b{animation:pop .45s cubic-bezier(.3,1.6,.6,1),wave 1.6s ease-in-out .45s infinite}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px) rotate(4deg)}}
+@keyframes wave{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(5deg) translateY(-2px)}}
 .spot{position:absolute;left:12px;top:30px;z-index:7;display:flex;align-items:center;gap:8px;background:rgba(39,18,45,.86);
   border:1px solid var(--line);border-radius:99px;padding:4px 12px 4px 4px;font-size:var(--s-5);transition:opacity .3s}
 .spot svg{width:38px;height:38px}
@@ -214,7 +222,7 @@ footer.end{padding-block:36px 40px;color:var(--muted);font-size:var(--s-5);text-
   <header class="hero">
     <div class="eyebrow">ALLAN 家族說故事劇場　·　第一號作品</div>
     <h1 class="title" aria-label="花草派"><span>花</span><span>草</span><span>派</span><small>新編互動繪本</small></h1>
-    <p class="lede">一隻愛踢球的小象玫瑰，遇上會溜冰又會彈琴的轉學生長頸鹿晶晶。媽媽提議送一個「最最最特別的花草派」，玫瑰卻以為派裡會放毛毛蟲。這本 2010 年社區大學學員手繪的繪本，現在由 <b>淑嬪、晴晴、亭婷、亮晶晶</b> 四位家族成員重新說給你聽。</p>
+    <p class="lede">一隻愛踢球的小象玫瑰，遇上會溜冰又會彈琴的轉學生長頸鹿晶晶。媽媽提議送一個「最最最特別的花草派」，玫瑰卻以為派裡會放毛毛蟲。這本 2010 年社區大學學員手繪的繪本，現在由 <b>晴晴、亭婷、淑嬪</b> 重新說給你聽，<b>亮晶晶</b> 在舞台邊舉牌加油。</p>
   </header>
 
   <div class="theatre" id="theatre">
@@ -225,6 +233,7 @@ footer.end{padding-block:36px 40px;color:var(--muted);font-size:var(--s-5);text-
         <div class="bubble" id="bubble"></div>
         <div class="caption" id="caption"></div>
         <div class="pageno" id="pageno">1 / 10</div>
+        <div class="cheer" id="cheer" aria-label="亮晶晶舉牌"></div>
       </div>
       <div class="controls">
         <div class="transport">
@@ -328,12 +337,13 @@ footer.end{padding-block:36px 40px;color:var(--muted);font-size:var(--s-5);text-
         <dt>指導老師</dt><dd>黃美智老師</dd>
         <dt>完成日期</dt><dd>2010 年 7 月 11 日</dd>
         <dt>原始形式</dt><dd>PowerPoint 投影片，10 幅手繪水彩、逐頁旁白錄音與對白動畫</dd>
+        <dt>繪本動畫輸出</dt><dd>Allan</dd>
         <dt>新編版</dt><dd>保留全部原畫與原聲，加入逐句同步劇本、AI 角色配音、家族錄音與角色對話，由 Allan 家族演出</dd>
       </dl>
     </div>
   </section>
 
-  <footer class="end">花草派 · Allan 家族說故事劇場 · 原畫與原聲版權屬原創作團隊</footer>
+  <footer class="end">花草派 · Allan 家族說故事劇場 · 繪本動畫輸出：Allan · 原畫與原聲版權屬原創作團隊</footer>
 </div>
 
 <audio id="audio" preload="metadata"></audio>
@@ -383,47 +393,66 @@ const AV = {
     <path d="M70 70q7 6 14 0" stroke="#2b1a1f" stroke-width="2.4" fill="#e2483d" stroke-linecap="round"/>
     <path d="M24 34l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#fff4dc"/><path d="M100 84l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff4dc"/><path d="M36 54l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z" fill="#ffcb3d"/></svg>`
 };
+AV.book = c => `<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="62" r="56" fill="${c}"/>
+    <path d="M60 44q-18-10-38-6v46q20-4 38 6z" fill="#fff4dc" stroke="#2b1a1f" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M60 44q18-10 38-6v46q-20-4-38 6z" fill="#fff" stroke="#2b1a1f" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M30 52q12-2 24 3M30 62q12-2 24 3M30 72q12-2 24 3M66 55q12-5 24-3M66 65q12-5 24-3" stroke="#c9a77a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <g transform="translate(78 74)"><circle r="7" fill="#e2483d"/><path d="M-3 0q3-4 6 0q-3 3-6 0z" fill="#a8231b"/></g>
+    <path d="M60 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#f6b21b"/></svg>`;
+AV.bunny = c => `<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="62" r="56" fill="${c}"/>
+    <ellipse cx="46" cy="30" rx="9" ry="24" fill="#ffb3c7"/><ellipse cx="74" cy="30" rx="9" ry="24" fill="#ffb3c7"/>
+    <ellipse cx="46" cy="32" rx="4" ry="16" fill="#fff4dc"/><ellipse cx="74" cy="32" rx="4" ry="16" fill="#fff4dc"/>
+    <circle cx="60" cy="68" r="28" fill="#ffb3c7"/>
+    <circle cx="50" cy="64" r="3.6" fill="#2b1a1f"/><circle cx="70" cy="64" r="3.6" fill="#2b1a1f"/>
+    <path d="M57 72h6l-3 3z" fill="#e2483d"/><path d="M53 78q7 6 14 0" stroke="#2b1a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <circle cx="43" cy="74" r="4.5" fill="#ff8595" opacity=".8"/><circle cx="77" cy="74" r="4.5" fill="#ff8595" opacity=".8"/></svg>`;
+AV.star = c => `<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="62" r="56" fill="${c}"/>
+    <path d="M60 18l11 26 28 2-21 18 7 28-25-15-25 15 7-28-21-18 28-2z" fill="#ffd54a" stroke="#e8a317" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 58q4-4 8 0M62 58q4-4 8 0" stroke="#2b1a1f" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M52 66q8 9 16 0z" fill="#e2483d" stroke="#2b1a1f" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="46" cy="66" r="3.6" fill="#ff8595" opacity=".85"/><circle cx="74" cy="66" r="3.6" fill="#ff8595" opacity=".85"/>
+    <path d="M22 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM98 92l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM100 26l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z" fill="#fff4dc"/></svg>`;
 const COL = {N:"#ecdcc0",M:"#c99af2",R:"#ff8595",J:"#ffcb3d",C:"#80dc93",V:"#80dc93"};
 const ROLE = {
-  N:{who:"淑嬪",role:"說書人",av:"mom"}, M:{who:"淑嬪",role:"象媽媽",av:"mom"},
-  R:{who:"晴晴",role:"小象玫瑰",av:"rose"}, J:{who:"亭婷",role:"長頸鹿晶晶",av:"jing"},
-  C:{who:"亮晶晶",role:"同學們",av:"bug"}, V:{who:"亮晶晶",role:"玫瑰心裡的小聲音",av:"bug"}
+  N:{who:"晴晴",role:"說書人",av:"book"}, J:{who:"晴晴",role:"長頸鹿晶晶",av:"jing"},
+  R:{who:"亭婷",role:"小象玫瑰",av:"rose"},
+  M:{who:"淑嬪",role:"象媽媽",av:"mom"}, C:{who:"淑嬪",role:"同學們",av:"bunny"}, V:{who:"淑嬪",role:"玫瑰心裡的小聲音",av:"bug"}
 };
 const ACTORS = [
-  {id:"shu",name:"淑嬪",age:"媽媽",keys:["N","M"],av:"mom",col:"#c99af2",
-   role:"<b>說書人</b>＋<b>象媽媽</b>",desc:"負責所有旁白，也是那位想出「送一個最特別的花草派」的媽媽。",quote:"知己知彼，百戰百勝。"},
-  {id:"qing",name:"晴晴",age:"11 歲",keys:["R"],av:"rose",col:"#ff8595",
-   role:"<b>小象玫瑰</b>　主角",desc:"踢球高手，嘴巴說不要，其實很在意朋友。全劇台詞最多的角色。",quote:"才不好！她很愛現又臭屁！"},
-  {id:"ting",name:"亭婷",age:"10 歲",keys:["J"],av:"jing",col:"#ffcb3d",
-   role:"<b>長頸鹿晶晶</b>　轉學生",desc:"會溜冰、會彈鋼琴，脖子一伸就能把樹上的球撿回來。",quote:"慢慢來，不要怕。我扶著妳。"},
-  {id:"liang",name:"亮晶晶",age:"4 歲",keys:["C","V"],av:"bug",col:"#80dc93",
-   role:"<b>同學們</b>＋<b>毛毛蟲小聲音</b>",desc:"一人分飾全班同學，還要扮演玫瑰心裡那個想放毛毛蟲的調皮聲音。名字跟晶晶只差一個「亮」字。",quote:"玫瑰好厲害！"}
+  {id:"qing",name:"晴晴",age:"11 歲",keys:["N","J"],av:"jing",col:"#ffcb3d",
+   role:"<b>說書人</b>＋<b>長頸鹿晶晶</b>",desc:"負責全部旁白，把故事從頭說到尾；也演會溜冰、會彈鋼琴的轉學生晶晶。",quote:"慢慢來，不要怕。我扶著妳。"},
+  {id:"ting",name:"亭婷",age:"10 歲",keys:["R"],av:"rose",col:"#ff8595",
+   role:"<b>小象玫瑰</b>　主角",desc:"踢球高手，嘴巴說不要，其實很在意朋友。從吃醋到交到好朋友，全看她的表情。",quote:"才不好！她很愛現又臭屁！"},
+  {id:"shu",name:"淑嬪",age:"媽媽",keys:["M","C","V"],av:"mom",col:"#c99af2",
+   role:"<b>象媽媽</b>＋<b>同學們</b>＋<b>小聲音</b>",desc:"想出「送一個最特別的花草派」的媽媽，順便包辦全班同學，還有玫瑰心裡那個想放毛毛蟲的調皮聲音。",quote:"知己知彼，百戰百勝。"},
+  {id:"liang",name:"亮晶晶",age:"4 歲",keys:[],av:"star",col:"#8fd0ff",
+   role:"<b>歡樂啦啦隊</b>　無聲演出",desc:"一句台詞都不用背。每一頁都在舞台右上角舉牌、拍手、轉圈圈，負責把大家逗笑。",quote:"（舉牌）拍拍手！",silent:true}
 ];
 
 /* ---------- book ---------- */
 // pos = [left%, top%, width%] of the original PPT speech bubble
 const PAGES = [
- {t:"封面",dur:42.8,ts:[0.3, 6, 14],o:["50%","40%"],lines:[
+ {t:"封面",cheer:"歡迎光臨",dur:42.8,ts:[0.3, 6, 14],o:["50%","40%"],lines:[
   ["N","花草派。"],
   ["N","嘉義市社區大學九十九年春季班「大家讀繪本」作品，指導老師黃美智老師。"],
-  ["N","今天由 Allan 家族的淑嬪、晴晴、亭婷和亮晶晶，說故事給你聽。"]]},
- {t:"愛踢球的小象玫瑰",dur:30.9,ts:[11.2, 18.9, 25.0, 27.8],o:["70%","60%"],lines:[
+  ["N","今天由 Allan 家族的晴晴、亭婷和淑嬪說故事給你聽，亮晶晶在旁邊幫大家加油。"]]},
+ {t:"愛踢球的小象玫瑰",cheer:"好球！",dur:30.9,ts:[11.2, 18.9, 25.0, 27.8],o:["70%","60%"],lines:[
   ["N","媽媽彎腰照顧花草。玫瑰正在踢球，兩個同學在一旁觀看著。"],
   ["C","小象玫瑰愛踢球，又踢又頂技藝高！"],
   ["C","好希望踢得像玫瑰那麼好。",[25.6,18.5,20]],
   ["C","玫瑰好厲害！",[9,44.7,19.7]]]},
- {t:"新同學晶晶",dur:24.9,ts:[0.5, 12.3, 14.6, 17.8, 21.3],o:["50%","30%"],lines:[
+ {t:"新同學晶晶",cheer:"新朋友",dur:24.9,ts:[0.5, 12.3, 14.6, 17.8, 21.3],o:["50%","30%"],lines:[
   ["N","玫瑰走進教室。班上來了一位新同學，名叫晶晶。果然人如其名，一出現就吸引許多同學的注意。"],
   ["C","妳叫甚麼名字？",[5.9,25.8,19.7]],
   ["J","我叫做晶晶。",[15.4,8,22]],
   ["C","妳喜歡玩甚麼遊戲？",[34.2,43.7,22]],
   ["J","我最喜歡溜冰，也很喜歡彈鋼琴喔！",[56.3,8,26]]]},
- {t:"溜冰表演",dur:18.9,ts:[0.5, 4.95, 11.85, 14.35],o:["50%","45%"],lines:[
+ {t:"溜冰表演",cheer:"轉圈圈",dur:18.9,ts:[0.5, 4.95, 11.85, 14.35],o:["50%","45%"],lines:[
   ["N","晶晶表演溜冰，同學大表欽佩。"],
   ["N","玫瑰望著環繞晶晶的人群，滿心不是滋味。"],
   ["C","晶晶溜得真不錯！",[53.1,3,24.4]],
   ["C","晶晶好厲害。教教我好不好？",[18.5,40.5,24.4]]]},
- {t:"廚房裡的心事",dur:64.6,ts:[0.5, 25.84, 31.34, 36.64, 42.94, 45.84, 61.74],o:["30%","50%"],lines:[
+ {t:"廚房裡的心事",cheer:"嗡嗡嗡",dur:64.6,ts:[0.5, 25.84, 31.34, 36.64, 42.94, 45.84, 61.74],o:["30%","50%"],lines:[
   ["N","玫瑰與媽媽在廚房中，一起在做派。玫瑰向媽媽吐露心事。"],
   ["R","媽媽，我們班來了一個新同學。",[66,13.2,26]],
   ["M","真的啊！有新同學很好呀！",[47.6,7,24.4]],
@@ -431,7 +460,7 @@ const PAGES = [
   ["M","怎麼說？",[47.6,7,20]],
   ["R","她一副很厲害的樣子，又會溜冰、又會彈琴。只要她一出現，身邊就圍了一大群人，好像一大群蒼蠅，嗡嗡嗡嗡吵死人！",[51.6,4.9,44]],
   ["N","玫瑰說著說著，嘟起了嘴。"]]},
- {t:"媽媽的主意",dur:106.9,ts:[0.47, 8.07, 11.67, 20.77, 29.97, 34.37, 39.07, 45.27, 55.17, 60.47, 76.37, 84.37, 87.27, 102.27],o:["40%","30%"],lines:[
+ {t:"媽媽的主意",cheer:"噓……",dur:106.9,ts:[0.47, 8.07, 11.67, 20.77, 29.97, 34.37, 39.07, 45.27, 55.17, 60.47, 76.37, 84.37, 87.27, 102.27],o:["40%","30%"],lines:[
   ["N","媽媽聽著玫瑰的心事，一面在心中打著主意。"],
   ["M","妳真有那麼討厭新同學？",[49.2,5,24.4]],
   ["R","對呀，想到老師還派她代表班上表演才藝，就更令人生氣了。",[68,18.5,28]],
@@ -446,13 +475,13 @@ const PAGES = [
   ["N","媽媽接著說："],
   ["M","知己知彼，百戰百勝。妳知道晶晶最喜歡甚麼？最討厭甚麼？妳是不是應該去接近她、了解她，才能送出一個真正令她驚訝的派。"],
   ["N","玫瑰聽著、想著，決定好好觀察晶晶。"]]},
- {t:"變成好朋友",dur:55.8,ts:[0.43, 3.4, 10.03, 20.33, 44.63],o:["70%","40%"],lines:[
+ {t:"變成好朋友",cheer:"好朋友",dur:55.8,ts:[0.43, 3.4, 10.03, 20.33, 44.63],o:["70%","40%"],lines:[
   ["N","晶晶教玫瑰溜冰。"],
   ["J","慢慢來，不要怕。我扶著妳。",[47.6,3,30.7]],
   ["N","在晶晶耐心的教導與鼓勵下，玫瑰不僅學會溜冰，而且愈溜愈順，愈溜愈好。"],
   ["N","晶晶幫玫瑰撿球。玫瑰與晶晶一起快樂的踢球。突然晶晶用力一踢，球居然落在高高的樹上，被茂密的樹葉給接住。正在想著該如何才能把球撿回來時，只見晶晶一探頭，就輕易的把球撿回來了。"],
   ["N","玫瑰逐漸發現，晶晶是個很棒的朋友，既體貼又善解人意。她們在一起玩的時間變多了，成了無話不談的好朋友。"]]},
- {t:"才藝表演與禮盒",dur:94.2,ts:[0.51, 14.21, 27.11, 37.81, 40.91, 43.71, 51.91, 58.41, 67.51, 75.81, 90.41],o:["40%","50%"],lines:[
+ {t:"才藝表演與禮盒",cheer:"打開看看",dur:94.2,ts:[0.51, 14.21, 27.11, 37.81, 40.91, 43.71, 51.91, 58.41, 67.51, 75.81, 90.41],o:["40%","50%"],lines:[
   ["N","大家齊聚一堂，聆聽各班同學的才藝表演。玫瑰坐在台下，手中抱著一個禮盒，禮盒裡可是媽媽「精心製作的花草派」。"],
   ["N","玫瑰的心裡七上八下的，她不知道媽媽會在這個派裡面加甚麼料。會是毛毛蟲嗎？會是蚱蜢蟋蟀嗎？如果真的嚇到了晶晶該怎麼辦？"],
   ["N","當晶晶在台上演奏時，玫瑰不禁在心中禱告了起來，她不知該如何送出這個派。"],
@@ -464,12 +493,13 @@ const PAGES = [
   ["J","妳在說甚麼呀？還是先打開來看看吧！",[21.6,7,31.5]],
   ["N","盒蓋掀開。果然是一個漂亮、豪華的花草派，既沒有毛蟲，也沒有蚱蜢。媽媽做了一個豪華美麗的派，這樣的派最適合與朋友共同分享。"],
   ["N","小象玫瑰心中的大石頭，終於落下來了。"]]},
- {t:"謝謝媽媽",dur:38.1,ts:[0.44, 5.64],o:["50%","70%"],lines:[
+ {t:"謝謝媽媽",cheer:"謝謝媽媽",dur:38.1,ts:[0.44, 5.64],o:["50%","70%"],lines:[
   ["N","玫瑰很感謝媽媽，不只是因為媽媽為她做了個派。"],
   ["N","還因為若沒有媽媽的提議，她就沒有機會認識像晶晶這麼好的朋友了。"]]},
- {t:"謝幕",dur:30.7,ts:[0.3, 5],o:["50%","40%"],lines:[
+ {t:"謝幕",cheer:"拍拍手",dur:30.7,ts:[0.3, 5, 11],o:["50%","40%"],lines:[
   ["N","謝謝觀賞，敬請指教。"],
-  ["N","演出：Allan 家族　淑嬪、晴晴、亭婷、亮晶晶。"]]}
+  ["N","演出：晴晴（說書人、晶晶）、亭婷（玫瑰）、淑嬪（媽媽與其他角色）、亮晶晶（歡樂啦啦隊）。"],
+  ["N","繪本動畫輸出：Allan。"]]}
 ];
 const pad = n => String(n).padStart(2,"0");
 PAGES.forEach((p,i)=>{p.img=`book/img/p${pad(i+1)}.jpg`;p.audio=`book/audio/p${pad(i+1)}.mp3`;});
@@ -488,7 +518,7 @@ PAGES.forEach((p,i)=>{
   d.append(img);
   if(i===0){
     const faces=ACTORS.map(a=>AV[a.av](a.col)).join("");
-    d.append(el("div",{class:"cover-card"},`<div class="k">ALLAN 家族　說故事演出</div><div class="t">淑嬪 · 晴晴 · 亭婷 · 亮晶晶</div><div class="faces">${faces}</div>`));
+    d.append(el("div",{class:"cover-card"},`<div class="k">ALLAN 家族　說故事演出</div><div class="t">晴晴 · 亭婷 · 淑嬪 · 亮晶晶</div><div class="faces">${faces}</div>`));
   }
   pagesEl.append(d);
   const b=el("button",{"aria-label":`第 ${i+1} 頁 ${p.t}`},`<img src="${p.img}" alt="" loading="lazy"><span>${i+1}</span>`);
@@ -522,7 +552,7 @@ function renderLines(){
   applyFilter();
 }
 function applyFilter(){
-  const a=ACTORS.find(x=>x.id===filter);
+  let a=ACTORS.find(x=>x.id===filter); if(a&&a.silent) a=null;
   linesEl.querySelectorAll(".ln").forEach(d=>{
     const k=PAGES[cur].lines[+d.dataset.i][0];
     d.classList.toggle("hl",!!a&&a.keys.includes(k)); d.classList.toggle("dim",!!a&&!a.keys.includes(k));
@@ -558,6 +588,7 @@ function go(i,user){
   stripEl.querySelectorAll("button").forEach((b,j)=>b.setAttribute("aria-current",j===cur));
   stripEl.children[cur].scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
   $("#pageno").textContent=`${cur+1} / ${PAGES.length}`;
+  const ch=$("#cheer"); ch.innerHTML=`<b>${PAGES[cur].cheer}</b>${AV.star("transparent")}`; ch.classList.remove("new"); void ch.offsetWidth; ch.classList.add("new");
   $("#bar").style.width="0";
   renderLines(); reveal(mode==="manual"?1:0); updateStudio();
   if(playing && mode!=="manual") startPage();
@@ -667,11 +698,11 @@ ACTORS.forEach(a=>{
     <h3>${a.name}<small>飾演</small></h3>
     <p class="role">${a.role}<br><span style="color:#6d5160">${a.desc}</span></p>
     <blockquote>「${a.quote}」</blockquote>
-    <div class="meta"><span>全劇台詞</span><span>${n} 句</span></div>`);
+    <div class="meta">${a.silent?`<span>全劇舉牌</span><span>${PAGES.length} 次</span>`:`<span>全劇台詞</span><span>${n} 句</span>`}</div>`);
   b.onclick=()=>{
     filter=filter===a.id?null:a.id;
     castgrid.querySelectorAll(".actor").forEach((x,j)=>x.setAttribute("aria-pressed",ACTORS[j].id===filter));
-    $("#filternote").textContent=filter?`劇本已標出 ${a.name} 的台詞（${a.role.replace(/<[^>]+>/g,"")}）。翻到任一頁都看得到。`:"";
+    $("#filternote").textContent=!filter?"":a.silent?`${a.name}不說台詞，請看舞台右上角她每一頁舉的牌子。`:`劇本已標出 ${a.name} 的台詞（${a.role.replace(/<[^>]+>/g,"")}）。翻到任一頁都看得到。`;
     applyFilter();
     if(filter) $("#theatre").scrollIntoView({behavior:"smooth",block:"start"});
   };
@@ -718,7 +749,7 @@ $("#recbtn").onclick=async()=>{
     await recPut(cur,{blob,dur,at:Date.now()});
     $("#recbtn").textContent="● 重錄這一頁"; st.textContent=`第 ${cur+1} 頁已存好（${dur.toFixed(1)} 秒）。`; updateStudio();
   };
-  mr.start(); $("#recbtn").textContent="■ 停止錄音"; st.textContent="錄音中…對照右上方劇本，一人一句唸出來。";
+  mr.start(); $("#recbtn").textContent="■ 停止錄音"; st.textContent="錄音中…對照右上方劇本，照劇本輪流唸出來。";
   reveal(PAGES[cur].lines.length);
   try{
     const ac=new (window.AudioContext||window.webkitAudioContext)(), an=ac.createAnalyser(); an.fftSize=64;
